@@ -7,6 +7,20 @@ from scripts.fetch_movie_info import fetch_movie_info
 API_KEY = 'wayxxnw2ppq8g98m57c8wmup'
 BASE_URL = 'http://api.rottentomatoes.com/api/public/v1.0'
 
+def fetch_tomato_movie_info(tomato_id):
+    data = {
+        'apikey': API_KEY, 
+    } 
+    url = '%s/movies/%s.json' % (BASE_URL, tomato_id)
+    r = requests.get(url, params=data)
+    print 'FETCHING: %s' % r.url
+
+    r.raise_for_status()
+
+    movie = r.json()
+    if 'imdb' in movie.get('alternate_ids', {}):
+        fetch_movie_info('tt' + movie['alternate_ids']['imdb'])
+
 def fetch_showtime(page=1, limit=16):
     data = {
         'apikey': API_KEY,

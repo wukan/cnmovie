@@ -19,15 +19,15 @@ def fetch_movie_info(imdb_id):
     movie = r.json()
     if is_cn_movie(movie):
         print '##########################'
-    print 'Title: %s\nCountry: %s\nLanguage: %s' % (movie['Title'], movie['Country'], movie['Language'])
+    print 'Title: %s\nCountry: %s\nLanguage: %s' % (movie.get('Title', ''), movie.get('Country', ''), movie.get('Language', ''))
     if is_cn_movie(movie):
         print '##########################'
 
 def is_cn_movie(movie):
-    countries = movie['Country']
+    countries = movie.get('Country', '')
     if 'China' in countries or 'Taiwan' in countries or 'Hong Kong' in countries:
         return True
-    languages = movie['Language']
+    languages = movie.get('Language', '')
     if 'Chinese' in languages or 'Mandarin' in languages or 'Cantonese' in languages:
         return True
     return False
